@@ -1,15 +1,21 @@
 package com.mst;
+
 import java.util.*;
 
 public class Graph {
-    public int vertices;
-    public List<Edge> edges = new ArrayList<>();
+    private List<String> nodes;
+    private List<Edge> edges;
 
-    public Graph(int vertices) {
-        this.vertices = vertices;
+    public Graph(List<String> nodes, List<Edge> edges) {
+        this.nodes = nodes;
+        this.edges = edges;
     }
 
-    public void addEdge(int src, int dest, int weight) {
-        edges.add(new Edge(src, dest, weight));
+    public List<String> getNodes() {
+        return nodes;
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
     }
 }
