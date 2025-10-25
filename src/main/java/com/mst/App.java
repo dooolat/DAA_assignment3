@@ -1,128 +1,108 @@
 package com.mst;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class App {
 
-    // Data structure to hold one graph from JSON
-    static class InputGraph {
-        int id;
-        List<String> nodes;
-        List<EdgeData> edges;
-    }
-
-    // Edge format for JSON reading
-    static class EdgeData {
-        String from;
-        String to;
-        int weight;
-    }
-
-    // Result format for output JSON
-    static class Result {
-        int graph_id;
-        Map<String, Integer> input_stats;
-        Map<String, Object> prim;
-        Map<String, Object> kruskal;
-    }
-
     public static void main(String[] args) {
         String inputFile = "assign_3_input.json";
-        String outputFile = "assign_3_output.json";
+        String outputFile = "output.json";
 
         try {
-            // Load input JSON
-            List<InputGraph> graphs = loadGraphs(inputFile);
-            List<Result> results = new ArrayList<>();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonObject jsonInput = gson.fromJson(new FileReader(inputFile), JsonObject.class);
+            JsonArray graphsArray = jsonInput.getAsJsonArray("graphs");
 
-            for (InputGraph g : graphs) {
-                // Convert JSON graph to internal Graph object
-                Graph graph = convertToGraph(g);
+            JsonArray resultsArray = new JsonArray();
 
-                // Run Prim’s algorithm
+            for (JsonElement graphElement : graphsArray) {
+                JsonObject graphObj = graphElement.getAsJsonObject();
+                int graphId = graphObj.get("id").getAsInt();
+
+                // Create Graph
+                List<String> nodes = new ArrayList<>();
+                for (JsonElement node : graphObj.getAsJsonArray("nodes")) {
+                    nodes.add(node.getAsString());
+                }
+
+                List<Edge> edges = new ArrayList<>();
+                for (JsonElement edgeEl : graphObj.getAsJsonArray("edges")) {
+                    JsonObject e = edgeEl.getAsJsonObject();
+                    edges.add(new Edge(e.get("from").getAsString(), e.get("to").getAsString(), e.get("weight").getAsInt()));
+                }
+
+                // Correct constructor
+                Graph graph = new Graph(nodes, edges);
+
+                // Run Prim
                 long startPrim = System.nanoTime();
-                int primCost = MSTAlgorithms.primMST(graph);
+                PrimAlgorithm primAlg = new PrimAlgorithm(graph);
+                List<Edge> primMST = primAlg.findMST();
                 long endPrim = System.nanoTime();
-                double primTime = (endPrim - startPrim) / 1_000_000.0;
 
-                // Run Kruskal’s algorithm
+                double primCost = primMST.stream().mapToDouble(Edge::getWeight).sum();
+
+                // Run Kruskal
                 long startKruskal = System.nanoTime();
-                int kruskalCost = MSTAlgorithms.kruskalMST(graph);
+                KruskalAlgorithm kruskalAlg = new KruskalAlgorithm(graph);
+                List<Edge> kruskalMST = kruskalAlg.findMST();
                 long endKruskal = System.nanoTime();
-                double kruskalTime = (endKruskal - startKruskal) / 1_000_000.0;
 
-                // Build output result
-                Result r = new Result();
-                r.graph_id = g.id;
-                r.input_stats = Map.of(
-                        "vertices", graph.vertices,
-                        "edges", graph.edges.size()
-                );
+                double kruskalCost = kruskalMST.stream().mapToDouble(Edge::getWeight).sum();
 
-                r.prim = Map.of(
-                        "total_cost", primCost,
-                        "execution_time_ms", primTime,
-                        "operations_count", 0 // optional: to be implemented later
-                );
+                // Prepare JSON output for this graph
+                JsonObject resultObj = new JsonObject();
+                resultObj.addProperty("graph_id", graphId);
 
-                r.kruskal = Map.of(
-                        "total_cost", kruskalCost,
-                        "execution_time_ms", kruskalTime,
-                        "operations_count", 0
-                );
+                JsonObject inputStats = new JsonObject();
+                inputStats.addProperty("vertices", graph.getVertexCount());
+                inputStats.addProperty("edges", graph.getEdgeCount());
+                resultObj.add("input_stats", inputStats);
 
-                results.add(r);
+                // Prim results
+                JsonObject primJson = new JsonObject();
+                primJson.add("mst_edges", edgesToJsonArray(primMST));
+                primJson.addProperty("total_cost", primCost);
+                primJson.addProperty("operations_count", primMST.size());
+                primJson.addProperty("execution_time_ms", (endPrim - startPrim) / 1_000_000.0);
+                resultObj.add("prim", primJson);
+
+                // Kruskal results
+                JsonObject kruskalJson = new JsonObject();
+                kruskalJson.add("mst_edges", edgesToJsonArray(kruskalMST));
+                kruskalJson.addProperty("total_cost", kruskalCost);
+                kruskalJson.addProperty("operations_count", kruskalMST.size());
+                kruskalJson.addProperty("execution_time_ms", (endKruskal - startKruskal) / 1_000_000.0);
+                resultObj.add("kruskal", kruskalJson);
+
+                resultsArray.add(resultObj);
             }
 
-            // Save all results to JSON
-            saveResults(outputFile, results);
-            System.out.println("✅ Results saved to " + outputFile);
+            JsonObject outputJson = new JsonObject();
+            outputJson.add("results", resultsArray);
+
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                gson.toJson(outputJson, writer);
+            }
+
+            System.out.println("MST computation completed. Results saved to " + outputFile);
 
         } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Load all graphs from a JSON file
-    private static List<InputGraph> loadGraphs(String filename) throws IOException {
-        Gson gson = new Gson();
-        try (Reader reader = new FileReader(filename)) {
-            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-            Type listType = new TypeToken<List<InputGraph>>() {}.getType();
-            return gson.fromJson(jsonObject.get("graphs"), listType);
+    private static JsonArray edgesToJsonArray(List<Edge> edges) {
+        JsonArray arr = new JsonArray();
+        for (Edge e : edges) {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("from", e.getFrom());
+            obj.addProperty("to", e.getTo());
+            obj.addProperty("weight", e.getWeight());
+            arr.add(obj);
         }
-    }
-
-    // Save results to a JSON file
-    private static void saveResults(String filename, List<Result> results) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Map<String, Object> output = Map.of("results", results);
-        try (Writer writer = new FileWriter(filename)) {
-            gson.toJson(output, writer);
-        }
-    }
-
-    // Convert input graph to internal Graph format
-    private static Graph convertToGraph(InputGraph inputGraph) {
-        int n = inputGraph.nodes.size();
-        Graph g = new Graph(n);
-        Map<String, Integer> indexMap = new HashMap<>();
-
-        // Assign integer index to each node
-        for (int i = 0; i < n; i++) {
-            indexMap.put(inputGraph.nodes.get(i), i);
-        }
-
-        // Add edges
-        for (EdgeData e : inputGraph.edges) {
-            int src = indexMap.get(e.from);
-            int dest = indexMap.get(e.to);
-            g.addEdge(src, dest, e.weight);
-        }
-        return g;
+        return arr;
     }
 }

@@ -1,17 +1,33 @@
 package com.mst;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        List<String> nodes = Arrays.asList("A", "B", "C", "D");
+        List<Edge> edges = new ArrayList<>();
+        edges.add(new Edge("A", "B", 1));
+        edges.add(new Edge("B", "C", 2));
+        edges.add(new Edge("C", "D", 3));
+        edges.add(new Edge("A", "D", 4));
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        Graph g = new Graph(nodes, edges);
+
+        PrimAlgorithm prim = new PrimAlgorithm(g);
+        KruskalAlgorithm kruskal = new KruskalAlgorithm(g);
+
+        List<Edge> primResult = prim.findMST();
+        List<Edge> kruskalResult = kruskal.findMST();
+
+        double primTotal = primResult.stream().mapToDouble(Edge::getWeight).sum();
+        double kruskalTotal = kruskalResult.stream().mapToDouble(Edge::getWeight).sum();
+
+        System.out.println("Prim MST:");
+        primResult.forEach(e -> System.out.println(e));
+        System.out.println("Prim total cost: " + primTotal + "\n");
+
+        System.out.println("Kruskal MST:");
+        kruskalResult.forEach(e -> System.out.println(e));
+        System.out.println("Kruskal total cost: " + kruskalTotal);
     }
 }
