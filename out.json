@@ -1,0 +1,773 @@
+{
+  "results" : [ {
+    "graph_id" : 1,
+    "input_stats" : {
+      "vertices" : 5,
+      "edges" : 4
+    },
+    "prim" : {
+      "mst_edges" : [ {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 27
+      }, {
+        "from" : "N1",
+        "to" : "N2",
+        "weight" : 14
+      }, {
+        "from" : "N2",
+        "to" : "N3",
+        "weight" : 30
+      }, {
+        "from" : "N3",
+        "to" : "N4",
+        "weight" : 7
+      } ],
+      "total_cost" : 78,
+      "operations_count" : 8,
+      "execution_time_ms" : 2.1101
+    },
+    "kruskal" : {
+      "mst_edges" : [ {
+        "from" : "N3",
+        "to" : "N4",
+        "weight" : 7
+      }, {
+        "from" : "N1",
+        "to" : "N2",
+        "weight" : 14
+      }, {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 27
+      }, {
+        "from" : "N2",
+        "to" : "N3",
+        "weight" : 30
+      } ],
+      "total_cost" : 78,
+      "operations_count" : 17,
+      "execution_time_ms" : 0.6348
+    }
+  }, {
+    "graph_id" : 2,
+    "input_stats" : {
+      "vertices" : 10,
+      "edges" : 18
+    },
+    "prim" : {
+      "mst_edges" : [ {
+        "from" : "N0",
+        "to" : "N7",
+        "weight" : 8
+      }, {
+        "from" : "N7",
+        "to" : "N9",
+        "weight" : 4
+      }, {
+        "from" : "N9",
+        "to" : "N8",
+        "weight" : 3
+      }, {
+        "from" : "N8",
+        "to" : "N3",
+        "weight" : 1
+      }, {
+        "from" : "N3",
+        "to" : "N6",
+        "weight" : 5
+      }, {
+        "from" : "N6",
+        "to" : "N5",
+        "weight" : 15
+      }, {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 17
+      }, {
+        "from" : "N1",
+        "to" : "N2",
+        "weight" : 11
+      }, {
+        "from" : "N3",
+        "to" : "N4",
+        "weight" : 32
+      } ],
+      "total_cost" : 96,
+      "operations_count" : 30,
+      "execution_time_ms" : 0.0728
+    },
+    "kruskal" : {
+      "mst_edges" : [ {
+        "from" : "N3",
+        "to" : "N8",
+        "weight" : 1
+      }, {
+        "from" : "N8",
+        "to" : "N9",
+        "weight" : 3
+      }, {
+        "from" : "N7",
+        "to" : "N9",
+        "weight" : 4
+      }, {
+        "from" : "N3",
+        "to" : "N6",
+        "weight" : 5
+      }, {
+        "from" : "N0",
+        "to" : "N7",
+        "weight" : 8
+      }, {
+        "from" : "N1",
+        "to" : "N2",
+        "weight" : 11
+      }, {
+        "from" : "N5",
+        "to" : "N6",
+        "weight" : 15
+      }, {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 17
+      }, {
+        "from" : "N3",
+        "to" : "N4",
+        "weight" : 32
+      } ],
+      "total_cost" : 96,
+      "operations_count" : 65,
+      "execution_time_ms" : 0.0393
+    }
+  }, {
+    "graph_id" : 3,
+    "input_stats" : {
+      "vertices" : 20,
+      "edges" : 76
+    },
+    "prim" : {
+      "mst_edges" : [ {
+        "from" : "N0",
+        "to" : "N12",
+        "weight" : 3
+      }, {
+        "from" : "N0",
+        "to" : "N9",
+        "weight" : 5
+      }, {
+        "from" : "N12",
+        "to" : "N8",
+        "weight" : 5
+      }, {
+        "from" : "N9",
+        "to" : "N19",
+        "weight" : 5
+      }, {
+        "from" : "N8",
+        "to" : "N4",
+        "weight" : 5
+      }, {
+        "from" : "N4",
+        "to" : "N5",
+        "weight" : 4
+      }, {
+        "from" : "N5",
+        "to" : "N18",
+        "weight" : 6
+      }, {
+        "from" : "N18",
+        "to" : "N17",
+        "weight" : 1
+      }, {
+        "from" : "N17",
+        "to" : "N16",
+        "weight" : 2
+      }, {
+        "from" : "N16",
+        "to" : "N1",
+        "weight" : 4
+      }, {
+        "from" : "N0",
+        "to" : "N10",
+        "weight" : 7
+      }, {
+        "from" : "N19",
+        "to" : "N11",
+        "weight" : 8
+      }, {
+        "from" : "N1",
+        "to" : "N14",
+        "weight" : 9
+      }, {
+        "from" : "N14",
+        "to" : "N13",
+        "weight" : 3
+      }, {
+        "from" : "N11",
+        "to" : "N7",
+        "weight" : 12
+      }, {
+        "from" : "N7",
+        "to" : "N6",
+        "weight" : 7
+      }, {
+        "from" : "N1",
+        "to" : "N3",
+        "weight" : 14
+      }, {
+        "from" : "N11",
+        "to" : "N2",
+        "weight" : 17
+      }, {
+        "from" : "N17",
+        "to" : "N15",
+        "weight" : 23
+      } ],
+      "total_cost" : 140,
+      "operations_count" : 112,
+      "execution_time_ms" : 0.2176
+    },
+    "kruskal" : {
+      "mst_edges" : [ {
+        "from" : "N17",
+        "to" : "N18",
+        "weight" : 1
+      }, {
+        "from" : "N16",
+        "to" : "N17",
+        "weight" : 2
+      }, {
+        "from" : "N13",
+        "to" : "N14",
+        "weight" : 3
+      }, {
+        "from" : "N0",
+        "to" : "N12",
+        "weight" : 3
+      }, {
+        "from" : "N4",
+        "to" : "N5",
+        "weight" : 4
+      }, {
+        "from" : "N1",
+        "to" : "N16",
+        "weight" : 4
+      }, {
+        "from" : "N4",
+        "to" : "N8",
+        "weight" : 5
+      }, {
+        "from" : "N9",
+        "to" : "N19",
+        "weight" : 5
+      }, {
+        "from" : "N0",
+        "to" : "N9",
+        "weight" : 5
+      }, {
+        "from" : "N8",
+        "to" : "N12",
+        "weight" : 5
+      }, {
+        "from" : "N5",
+        "to" : "N18",
+        "weight" : 6
+      }, {
+        "from" : "N6",
+        "to" : "N7",
+        "weight" : 7
+      }, {
+        "from" : "N0",
+        "to" : "N10",
+        "weight" : 7
+      }, {
+        "from" : "N11",
+        "to" : "N19",
+        "weight" : 8
+      }, {
+        "from" : "N1",
+        "to" : "N14",
+        "weight" : 9
+      }, {
+        "from" : "N7",
+        "to" : "N11",
+        "weight" : 12
+      }, {
+        "from" : "N1",
+        "to" : "N3",
+        "weight" : 14
+      }, {
+        "from" : "N2",
+        "to" : "N6",
+        "weight" : 17
+      }, {
+        "from" : "N15",
+        "to" : "N17",
+        "weight" : 23
+      } ],
+      "total_cost" : 140,
+      "operations_count" : 240,
+      "execution_time_ms" : 0.1637
+    }
+  }, {
+    "graph_id" : 4,
+    "input_stats" : {
+      "vertices" : 25,
+      "edges" : 120
+    },
+    "prim" : {
+      "mst_edges" : [ {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 13
+      }, {
+        "from" : "N0",
+        "to" : "N7",
+        "weight" : 17
+      }, {
+        "from" : "N7",
+        "to" : "N23",
+        "weight" : 1
+      }, {
+        "from" : "N7",
+        "to" : "N4",
+        "weight" : 3
+      }, {
+        "from" : "N23",
+        "to" : "N17",
+        "weight" : 5
+      }, {
+        "from" : "N17",
+        "to" : "N20",
+        "weight" : 4
+      }, {
+        "from" : "N20",
+        "to" : "N12",
+        "weight" : 1
+      }, {
+        "from" : "N20",
+        "to" : "N18",
+        "weight" : 5
+      }, {
+        "from" : "N18",
+        "to" : "N22",
+        "weight" : 6
+      }, {
+        "from" : "N22",
+        "to" : "N19",
+        "weight" : 1
+      }, {
+        "from" : "N22",
+        "to" : "N10",
+        "weight" : 6
+      }, {
+        "from" : "N4",
+        "to" : "N3",
+        "weight" : 7
+      }, {
+        "from" : "N12",
+        "to" : "N24",
+        "weight" : 7
+      }, {
+        "from" : "N10",
+        "to" : "N8",
+        "weight" : 8
+      }, {
+        "from" : "N8",
+        "to" : "N16",
+        "weight" : 5
+      }, {
+        "from" : "N16",
+        "to" : "N9",
+        "weight" : 1
+      }, {
+        "from" : "N7",
+        "to" : "N14",
+        "weight" : 9
+      }, {
+        "from" : "N9",
+        "to" : "N11",
+        "weight" : 11
+      }, {
+        "from" : "N11",
+        "to" : "N6",
+        "weight" : 3
+      }, {
+        "from" : "N22",
+        "to" : "N2",
+        "weight" : 13
+      }, {
+        "from" : "N11",
+        "to" : "N5",
+        "weight" : 14
+      }, {
+        "from" : "N8",
+        "to" : "N13",
+        "weight" : 15
+      }, {
+        "from" : "N12",
+        "to" : "N15",
+        "weight" : 15
+      }, {
+        "from" : "N2",
+        "to" : "N21",
+        "weight" : 16
+      } ],
+      "total_cost" : 186,
+      "operations_count" : 152,
+      "execution_time_ms" : 0.2067
+    },
+    "kruskal" : {
+      "mst_edges" : [ {
+        "from" : "N12",
+        "to" : "N20",
+        "weight" : 1
+      }, {
+        "from" : "N9",
+        "to" : "N16",
+        "weight" : 1
+      }, {
+        "from" : "N7",
+        "to" : "N23",
+        "weight" : 1
+      }, {
+        "from" : "N19",
+        "to" : "N22",
+        "weight" : 1
+      }, {
+        "from" : "N4",
+        "to" : "N7",
+        "weight" : 3
+      }, {
+        "from" : "N6",
+        "to" : "N11",
+        "weight" : 3
+      }, {
+        "from" : "N17",
+        "to" : "N20",
+        "weight" : 4
+      }, {
+        "from" : "N18",
+        "to" : "N20",
+        "weight" : 5
+      }, {
+        "from" : "N17",
+        "to" : "N23",
+        "weight" : 5
+      }, {
+        "from" : "N8",
+        "to" : "N16",
+        "weight" : 5
+      }, {
+        "from" : "N18",
+        "to" : "N22",
+        "weight" : 6
+      }, {
+        "from" : "N10",
+        "to" : "N22",
+        "weight" : 6
+      }, {
+        "from" : "N3",
+        "to" : "N4",
+        "weight" : 7
+      }, {
+        "from" : "N12",
+        "to" : "N24",
+        "weight" : 7
+      }, {
+        "from" : "N8",
+        "to" : "N10",
+        "weight" : 8
+      }, {
+        "from" : "N7",
+        "to" : "N14",
+        "weight" : 9
+      }, {
+        "from" : "N9",
+        "to" : "N11",
+        "weight" : 11
+      }, {
+        "from" : "N0",
+        "to" : "N1",
+        "weight" : 13
+      }, {
+        "from" : "N2",
+        "to" : "N22",
+        "weight" : 13
+      }, {
+        "from" : "N5",
+        "to" : "N11",
+        "weight" : 14
+      }, {
+        "from" : "N12",
+        "to" : "N15",
+        "weight" : 15
+      }, {
+        "from" : "N8",
+        "to" : "N13",
+        "weight" : 15
+      }, {
+        "from" : "N2",
+        "to" : "N21",
+        "weight" : 16
+      }, {
+        "from" : "N0",
+        "to" : "N7",
+        "weight" : 17
+      } ],
+      "total_cost" : 186,
+      "operations_count" : 262,
+      "execution_time_ms" : 0.1452
+    }
+  }, {
+    "graph_id" : 5,
+    "input_stats" : {
+      "vertices" : 30,
+      "edges" : 174
+    },
+    "prim" : {
+      "mst_edges" : [ {
+        "from" : "N0",
+        "to" : "N21",
+        "weight" : 8
+      }, {
+        "from" : "N21",
+        "to" : "N4",
+        "weight" : 5
+      }, {
+        "from" : "N21",
+        "to" : "N28",
+        "weight" : 5
+      }, {
+        "from" : "N28",
+        "to" : "N20",
+        "weight" : 3
+      }, {
+        "from" : "N28",
+        "to" : "N6",
+        "weight" : 3
+      }, {
+        "from" : "N6",
+        "to" : "N18",
+        "weight" : 2
+      }, {
+        "from" : "N6",
+        "to" : "N16",
+        "weight" : 2
+      }, {
+        "from" : "N16",
+        "to" : "N12",
+        "weight" : 1
+      }, {
+        "from" : "N18",
+        "to" : "N17",
+        "weight" : 2
+      }, {
+        "from" : "N16",
+        "to" : "N7",
+        "weight" : 2
+      }, {
+        "from" : "N6",
+        "to" : "N22",
+        "weight" : 3
+      }, {
+        "from" : "N18",
+        "to" : "N8",
+        "weight" : 3
+      }, {
+        "from" : "N8",
+        "to" : "N9",
+        "weight" : 2
+      }, {
+        "from" : "N9",
+        "to" : "N25",
+        "weight" : 3
+      }, {
+        "from" : "N7",
+        "to" : "N24",
+        "weight" : 4
+      }, {
+        "from" : "N16",
+        "to" : "N29",
+        "weight" : 4
+      }, {
+        "from" : "N25",
+        "to" : "N15",
+        "weight" : 4
+      }, {
+        "from" : "N16",
+        "to" : "N27",
+        "weight" : 5
+      }, {
+        "from" : "N15",
+        "to" : "N23",
+        "weight" : 5
+      }, {
+        "from" : "N7",
+        "to" : "N19",
+        "weight" : 6
+      }, {
+        "from" : "N17",
+        "to" : "N11",
+        "weight" : 6
+      }, {
+        "from" : "N21",
+        "to" : "N1",
+        "weight" : 8
+      }, {
+        "from" : "N1",
+        "to" : "N14",
+        "weight" : 6
+      }, {
+        "from" : "N14",
+        "to" : "N13",
+        "weight" : 7
+      }, {
+        "from" : "N11",
+        "to" : "N10",
+        "weight" : 9
+      }, {
+        "from" : "N10",
+        "to" : "N5",
+        "weight" : 3
+      }, {
+        "from" : "N5",
+        "to" : "N3",
+        "weight" : 2
+      }, {
+        "from" : "N5",
+        "to" : "N26",
+        "weight" : 3
+      }, {
+        "from" : "N10",
+        "to" : "N2",
+        "weight" : 5
+      } ],
+      "total_cost" : 121,
+      "operations_count" : 217,
+      "execution_time_ms" : 0.2399
+    },
+    "kruskal" : {
+      "mst_edges" : [ {
+        "from" : "N12",
+        "to" : "N16",
+        "weight" : 1
+      }, {
+        "from" : "N8",
+        "to" : "N9",
+        "weight" : 2
+      }, {
+        "from" : "N17",
+        "to" : "N18",
+        "weight" : 2
+      }, {
+        "from" : "N7",
+        "to" : "N16",
+        "weight" : 2
+      }, {
+        "from" : "N6",
+        "to" : "N18",
+        "weight" : 2
+      }, {
+        "from" : "N6",
+        "to" : "N16",
+        "weight" : 2
+      }, {
+        "from" : "N3",
+        "to" : "N5",
+        "weight" : 2
+      }, {
+        "from" : "N5",
+        "to" : "N26",
+        "weight" : 3
+      }, {
+        "from" : "N5",
+        "to" : "N10",
+        "weight" : 3
+      }, {
+        "from" : "N20",
+        "to" : "N28",
+        "weight" : 3
+      }, {
+        "from" : "N9",
+        "to" : "N25",
+        "weight" : 3
+      }, {
+        "from" : "N8",
+        "to" : "N18",
+        "weight" : 3
+      }, {
+        "from" : "N6",
+        "to" : "N22",
+        "weight" : 3
+      }, {
+        "from" : "N6",
+        "to" : "N28",
+        "weight" : 3
+      }, {
+        "from" : "N15",
+        "to" : "N25",
+        "weight" : 4
+      }, {
+        "from" : "N7",
+        "to" : "N24",
+        "weight" : 4
+      }, {
+        "from" : "N16",
+        "to" : "N29",
+        "weight" : 4
+      }, {
+        "from" : "N27",
+        "to" : "N28",
+        "weight" : 5
+      }, {
+        "from" : "N2",
+        "to" : "N10",
+        "weight" : 5
+      }, {
+        "from" : "N4",
+        "to" : "N21",
+        "weight" : 5
+      }, {
+        "from" : "N15",
+        "to" : "N23",
+        "weight" : 5
+      }, {
+        "from" : "N21",
+        "to" : "N28",
+        "weight" : 5
+      }, {
+        "from" : "N7",
+        "to" : "N19",
+        "weight" : 6
+      }, {
+        "from" : "N1",
+        "to" : "N14",
+        "weight" : 6
+      }, {
+        "from" : "N11",
+        "to" : "N17",
+        "weight" : 6
+      }, {
+        "from" : "N13",
+        "to" : "N14",
+        "weight" : 7
+      }, {
+        "from" : "N0",
+        "to" : "N21",
+        "weight" : 8
+      }, {
+        "from" : "N1",
+        "to" : "N21",
+        "weight" : 8
+      }, {
+        "from" : "N10",
+        "to" : "N11",
+        "weight" : 9
+      } ],
+      "total_cost" : 121,
+      "operations_count" : 360,
+      "execution_time_ms" : 0.1559
+    }
+  } ]
+}

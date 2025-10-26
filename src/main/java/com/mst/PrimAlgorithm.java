@@ -1,60 +1,46 @@
 package com.mst;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
-// Prim's Algorithm to find Minimum Spanning Tree (MST)
 public class PrimAlgorithm {
 
-    private Graph graph;
+    public static MSTAlgorithms.AlgoResult run(Graph g){
+        long start = System.nanoTime();
+        MSTAlgorithms.AlgoResult res = new MSTAlgorithms.AlgoResult();
+        AtomicLong ops = new AtomicLong(0);
+        if (g.nodes == null || g.nodes.isEmpty()) { 
+            res.execution_time_ms = 0; 
+            return res; 
+        }
 
-    public PrimAlgorithm(Graph graph) {
-        this.graph = graph;
-    }
+        Map<String, List<Edge>> adj = new HashMap<>();
+        for (String v: g.nodes) adj.put(v, new ArrayList<>());
+        for (Edge e: g.edges) {
+            adj.get(e.from).add(e);
+            adj.get(e.to).add(new Edge(e.to, e.from, e.weight));
+        }
 
-    // Find MST using Prim's algorithm
-    public List<Edge> findMST() {
-        List<Edge> mst = new ArrayList<>();   // List of edges in MST
-        if (graph.getVertices().isEmpty()) return mst;
+        Set<String> inMST = new HashSet<>();
+        String startNode = g.nodes.get(0);
+        inMST.add(startNode);
+        PriorityQueue<Edge> pq = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight));
+        pq.addAll(adj.get(startNode));
+        ops.addAndGet(adj.get(startNode).size());
 
-        HashSet<String> visited = new HashSet<>(); // Tracks visited vertices
-        PriorityQueue<Edge> edgeQueue = new PriorityQueue<>( (a, b) -> Double.compare(a.getWeight(), b.getWeight()) );
-
-
-        // Start from the first vertex
-        String start = graph.getVertices().get(0);
-        visited.add(start);
-        addEdges(start, edgeQueue, visited);
-
-        while (!edgeQueue.isEmpty() && visited.size() < graph.getVertexCount()) {
-            Edge edge = edgeQueue.poll();
-
-            // If the destination vertex is not visited yet
-            if (!visited.contains(edge.getTo())) {
-                mst.add(edge);
-                visited.add(edge.getTo());
-                addEdges(edge.getTo(), edgeQueue, visited);
-            } else if (!visited.contains(edge.getFrom())) {
-                // Also check the reverse direction (undirected graph)
-                mst.add(edge);
-                visited.add(edge.getFrom());
-                addEdges(edge.getFrom(), edgeQueue, visited);
+        while(!pq.isEmpty() && res.mst_edges.size() < g.nodes.size()-1){
+            Edge e = pq.poll(); ops.incrementAndGet();
+            if(inMST.contains(e.to)) continue;
+            res.mst_edges.add(new Edge(e.from, e.to, e.weight));
+            res.total_cost += e.weight;
+            inMST.add(e.to);
+            for(Edge ne: adj.get(e.to)){
+                if(!inMST.contains(ne.to)) { pq.offer(ne); ops.incrementAndGet(); }
             }
         }
 
-        return mst;
-    }
-
-    // Add all edges from the vertex to the priority queue if the other vertex is not visited
-    private void addEdges(String vertex, PriorityQueue<Edge> queue, HashSet<String> visited) {
-        for (Edge edge : graph.getEdges()) {
-            if (edge.getFrom().equals(vertex) && !visited.contains(edge.getTo())) {
-                queue.add(edge);
-            } else if (edge.getTo().equals(vertex) && !visited.contains(edge.getFrom())) {
-                queue.add(edge);
-            }
-        }
+        res.operations_count = ops.get();
+        res.execution_time_ms = (System.nanoTime()-start)/1_000_000.0;
+        return res;
     }
 }

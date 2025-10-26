@@ -1,33 +1,21 @@
 package com.mst;
 
+import java.nio.file.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        List<String> nodes = Arrays.asList("A", "B", "C", "D");
-        List<Edge> edges = new ArrayList<>();
-        edges.add(new Edge("A", "B", 1));
-        edges.add(new Edge("B", "C", 2));
-        edges.add(new Edge("C", "D", 3));
-        edges.add(new Edge("A", "D", 4));
+    public static void main(String[] args) throws Exception {
+        if(args.length < 3){
+            System.err.println("Usage: java com.mst.Main <output.json> <summary.csv> <input1.json> [input2.json ...]");
+            return;
+        }
+        Path outJson = Paths.get(args[0]);
+        Path outCsv  = Paths.get(args[1]);
+        List<Path> inputs = new ArrayList<>();
+        for(int i=2;i<args.length;i++) inputs.add(Paths.get(args[i]));
+        MSTAlgorithms.OutputEnvelope out = MSTAlgorithms.runOnFiles(inputs);
+        MSTAlgorithms.writeOutput(out, outJson, outCsv);
 
-        Graph g = new Graph(nodes, edges);
-
-        PrimAlgorithm prim = new PrimAlgorithm(g);
-        KruskalAlgorithm kruskal = new KruskalAlgorithm(g);
-
-        List<Edge> primResult = prim.findMST();
-        List<Edge> kruskalResult = kruskal.findMST();
-
-        double primTotal = primResult.stream().mapToDouble(Edge::getWeight).sum();
-        double kruskalTotal = kruskalResult.stream().mapToDouble(Edge::getWeight).sum();
-
-        System.out.println("Prim MST:");
-        primResult.forEach(e -> System.out.println(e));
-        System.out.println("Prim total cost: " + primTotal + "\n");
-
-        System.out.println("Kruskal MST:");
-        kruskalResult.forEach(e -> System.out.println(e));
-        System.out.println("Kruskal total cost: " + kruskalTotal);
+        System.out.println("Done. Results written to: " + outJson + " and " + outCsv);
     }
 }

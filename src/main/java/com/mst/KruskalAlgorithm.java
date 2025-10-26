@@ -1,77 +1,56 @@
 package com.mst;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
-// Kruskal's Algorithm to find Minimum Spanning Tree (MST)
 public class KruskalAlgorithm {
 
-    private Graph graph;
-
-    public KruskalAlgorithm(Graph graph) {
-        this.graph = graph;
+    // Disjoint Set Union helper
+    static class DSU {
+        private final Map<String,String> parent = new HashMap<>();
+        private final Map<String,Integer> rank = new HashMap<>();
+        private final AtomicLong ops;
+        public DSU(Collection<String> nodes, AtomicLong ops) {
+            this.ops = ops;
+            for (String v: nodes) { parent.put(v,v); rank.put(v,0); }
+        }
+        public String find(String x){
+            ops.incrementAndGet();
+            if(!parent.get(x).equals(x)) parent.put(x, find(parent.get(x)));
+            return parent.get(x);
+        }
+        public boolean union(String a, String b){
+            ops.incrementAndGet();
+            String ra = find(a), rb = find(b);
+            if(ra.equals(rb)) return false;
+            int rka = rank.get(ra), rkb = rank.get(rb);
+            if(rka < rkb) parent.put(ra, rb);
+            else if(rka > rkb) parent.put(rb, ra);
+            else { parent.put(rb, ra); rank.put(ra, rka+1); }
+            return true;
+        }
     }
 
-    // Find MST using Kruskal's algorithm
-    public List<Edge> findMST() {
-        List<Edge> mst = new ArrayList<>();  // MST edges
-        DisjointSet ds = new DisjointSet(graph.getVertexCount());
+    public static MSTAlgorithms.AlgoResult run(Graph g){
+        long start = System.nanoTime();
+        MSTAlgorithms.AlgoResult res = new MSTAlgorithms.AlgoResult();
+        AtomicLong ops = new AtomicLong(0);
+        if (g.nodes==null || g.nodes.isEmpty()) { res.execution_time_ms = 0; return res; }
 
-        // Sort edges by weight
-        List<Edge> edges = new ArrayList<>(graph.getEdges());
-        Collections.sort(edges, (a, b) -> Double.compare(a.getWeight(), b.getWeight()));
+        List<Edge> edges = new ArrayList<>(g.edges);
+        edges.sort(Comparator.comparingInt(e -> e.weight));
+        ops.addAndGet(edges.size());
 
-        // Iterate through sorted edges
-        for (Edge edge : edges) {
-            int fromIndex = graph.getVertices().indexOf(edge.getFrom());
-            int toIndex = graph.getVertices().indexOf(edge.getTo());
-
-            // If adding this edge doesn't form a cycle
-            if (ds.find(fromIndex) != ds.find(toIndex)) {
-                mst.add(edge);             // Add edge to MST
-                ds.union(fromIndex, toIndex); // Union the sets
+        DSU dsu = new DSU(g.nodes, ops);
+        for(Edge e: edges){
+            if(dsu.union(e.from, e.to)){
+                res.mst_edges.add(new Edge(e.from, e.to, e.weight));
+                res.total_cost += e.weight;
+                if(res.mst_edges.size() == g.nodes.size()-1) break;
             }
         }
-        return mst;
-    }
-
-    // Disjoint Set (Union-Find) implementation
-    private static class DisjointSet {
-        private int[] parent;
-        private int[] rank;
-
-        public DisjointSet(int n) {
-            parent = new int[n];
-            rank = new int[n];
-            for (int i = 0; i < n; i++) {
-                parent[i] = i;  // Each node is its own parent initially
-                rank[i] = 0;    // Rank starts at 0
-            }
-        }
-
-        public int find(int x) {
-            if (parent[x] != x) {
-                parent[x] = find(parent[x]); // Path compression
-            }
-            return parent[x];
-        }
-
-        public void union(int x, int y) {
-            int rootX = find(x);
-            int rootY = find(y);
-
-            if (rootX == rootY) return; // Already connected
-
-            // Union by rank
-            if (rank[rootX] < rank[rootY]) {
-                parent[rootX] = rootY;
-            } else if (rank[rootX] > rank[rootY]) {
-                parent[rootY] = rootX;
-            } else {
-                parent[rootY] = rootX;
-                rank[rootX]++;
-            }
-        }
+        res.operations_count = ops.get();
+        res.execution_time_ms = (System.nanoTime()-start)/1_000_000.0;
+        return res;
     }
 }
